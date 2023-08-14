@@ -5,8 +5,7 @@ cask "ryusak" do
   url "https://github.com/Ecks1337/RyuSAK/releases/download/v#{version}/RyuSAK-darwin-arm64-#{version}.zip",
       verified: "github.com/Ecks1337/RyuSAK/"
   name "RyuSAK"
-  desc "Experimental Nintendo Switch Emulator written in C#"
-  homepage "https://www.ryujinx.org/"
+  homepage "https://github.com/Ecks1337/RyuSAK/"
 
   livecheck do
     url :url

@@ -22,6 +22,7 @@ cask "ryujinx" do
 
   zap trash: [
     "~/.config/Ryujinx",
+    "~/Library/Preferences/org.ryujinx.Ryujinx.plist",
     "~/Library/Saved Application State/org.ryujinx.Ryujinx.savedState",
   ]
 end
