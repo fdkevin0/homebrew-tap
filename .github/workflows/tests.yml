@@ -4,6 +4,10 @@ on:
     branches:
       - main
   pull_request:
+
+permissions:
+  pull-requests: write
+
 jobs:
   test-bot:
     strategy:
@@ -47,3 +51,14 @@ jobs:
         with:
           name: bottles
           path: '*.bottle.*'
+
+  merge-bump:
+    needs: test-bot
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'github-actions[bot]' && github.event_name == 'pull_request' }}
+    steps:
+      - name: Merge PR
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ github.token }}
