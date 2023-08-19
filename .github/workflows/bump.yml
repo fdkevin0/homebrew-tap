@@ -5,6 +5,9 @@ on:
     # every day at 6am
     - cron: "0 6 * * *"
 
+permissions:
+  pull-requests: write
+
 jobs:
   get-formulae-and-casks:
     name: Get formulae and casks
@@ -55,11 +58,11 @@ jobs:
       - name: Set up git
         if: steps.livecheck.outputs.outdated == 'true'
         run: |
-          git config --global user.email "25277753+fdkevin-bot@users.noreply.github.com"
-          git config --global user.name "fdkevin-bot"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
       - name: brew bump-${{ matrix.type }}-pr ${{ matrix.name }}
         if: steps.livecheck.outputs.outdated == 'true'
         run: |
           brew bump-${{ matrix.type }}-pr fdkevin0/tap/${{ matrix.name }} --version=${{ steps.livecheck.outputs.new-version }} --no-browse
         env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
