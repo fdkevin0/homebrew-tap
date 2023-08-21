@@ -45,6 +45,9 @@ jobs:
     name: Bump ${{ matrix.name }}
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
       - run: brew tap fdkevin0/tap
       - name: brew livecheck ${{ matrix.name }}
         run: |
