@@ -21,8 +21,10 @@ jobs:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
-      - run: brew tap fdkevin0/tap
-      - run: brew livecheck --json --tap fdkevin0/tap
+      - run: | 
+          brew tap fdkevin0/tap
+          brew developer on
+          brew livecheck --json --tap fdkevin0/tap
       # merge the two json arrays into one
       - name: Output matrix
         run: |
