@@ -56,11 +56,11 @@ jobs:
             echo new-version="$(cat new-version)" >> $GITHUB_OUTPUT
         id: livecheck
         shell: bash -euxo pipefail {0}
-      - name: Set up git
-        if: steps.livecheck.outputs.outdated == 'true'
-        run: |
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+      # - name: Set up git
+      #   if: steps.livecheck.outputs.outdated == 'true'
+      #   run: |
+      #     git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #     git config --global user.name "github-actions[bot]"
       - name: brew bump-${{ matrix.type }}-pr ${{ matrix.name }}
         if: steps.livecheck.outputs.outdated == 'true'
         run: |
