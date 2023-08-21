@@ -36,7 +36,6 @@ jobs:
         include: ${{ fromJson(needs.get-outdated-formulae-and-casks.outputs.matrix) }}
     name: Bump ${{ matrix.name }} to ${{ matrix.version.latest }}
     runs-on: macos-13
-    permissions: write-all
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -48,13 +47,17 @@ jobs:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
           key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
           restore-keys: ${{ runner.os }}-rubygems-
-      - run: brew tap fdkevin0/tap
+      - name: tap repo and set token
+        run: |
+          brew tap fdkevin0/tap
+          cd $(brew tap-info --json fdkevin0/tap | jq -r '.[].path')
+          git remote set-url origin 'https://x-access-token:${{ github.token }}@github.com/fdkevin0/homebrew-tap'
       - name: Set up git
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
       - name: brew bump ${{ matrix.type }} ${{ matrix.name }} and open PR
         run: |
-          brew bump-${{ matrix.type }}-pr fdkevin0/tap/${{ matrix.name }} --version=${{ matrix.version.latest }} --no-browse
+          brew bump-${{ matrix.type }}-pr fdkevin0/tap/${{ matrix.name }} --version=${{ matrix.version.latest }} --no-browse --no-fork
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
