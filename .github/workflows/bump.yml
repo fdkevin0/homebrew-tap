@@ -20,10 +20,10 @@ jobs:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
-      # https://stackoverflow.com/a/32354503/18839600
-      # first, get all formulae through `ls` and convert them into a JSON array
-      # then, map the json array to {name: <formula-name>[:-3], type: formula}
-      # [:-3] is to remove the .rb extension
+      - name: setup homebrew livecheck_watchlist
+        run: |
+          mkdir -p ~/.homebrew
+          touch ~/.homebrew/livecheck_watchlist.txt
       - name: Get formulae
         run: ls | cut -f 1 -d '.' >> ~/.homebrew/livecheck_watchlist.txt
         working-directory: Formula
