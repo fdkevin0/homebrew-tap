@@ -56,4 +56,4 @@ jobs:
         run: |
           brew bump-${{ matrix.type }}-pr fdkevin0/tap/${{ matrix.name }} --version=${{ matrix.version.latest }} --no-browse --no-fork
         env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
