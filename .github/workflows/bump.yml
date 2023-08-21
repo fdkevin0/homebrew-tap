@@ -36,6 +36,7 @@ jobs:
         include: ${{ fromJson(needs.get-outdated-formulae-and-casks.outputs.matrix) }}
     name: Bump ${{ matrix.name }} to ${{ matrix.version.latest }}
     runs-on: macos-13
+    permissions: write-all
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
