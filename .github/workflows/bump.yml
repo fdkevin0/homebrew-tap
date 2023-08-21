@@ -53,6 +53,7 @@ jobs:
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git config --global url."https://x-access-token:${{ github.token }}@github.com/".insteadOf "https://github.com/"
       - name: brew bump ${{ matrix.type }} ${{ matrix.name }} and open PR
         run: |
           brew bump-${{ matrix.type }}-pr fdkevin0/tap/${{ matrix.name }} --version=${{ matrix.version.latest }} --no-browse
