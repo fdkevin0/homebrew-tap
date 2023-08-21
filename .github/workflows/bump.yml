@@ -48,6 +48,8 @@ jobs:
           key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
           restore-keys: ${{ runner.os }}-rubygems-
       - run: brew tap fdkevin0/tap
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
       - name: Set up git
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -56,4 +58,4 @@ jobs:
         run: |
           brew bump-${{ matrix.type }}-pr fdkevin0/tap/${{ matrix.name }} --version=${{ matrix.version.latest }} --no-browse --no-fork
         env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
