@@ -24,11 +24,11 @@ jobs:
       - run: | 
           brew tap fdkevin0/tap
           brew developer on
-          brew livecheck --json --tap fdkevin0/tap
+          brew livecheck --json --tap fdkevin0/tap | jq -c '[.[] | select(.version.outdated == true) | . + {name: (.cask // .formula)}]'
       # merge the two json arrays into one
       - name: Output matrix
         run: |
-          echo matrix="$(brew livecheck --json --tap fdkevin0/tap | jq '[.[] | select(.version.outdated == true) | . + {name: (.cask // .formula)}]')" >> $GITHUB_OUTPUT
+          echo matrix="$(brew livecheck --json --tap fdkevin0/tap | jq -c '[.[] | select(.version.outdated == true) | . + {name: (.cask // .formula)}]')" >> $GITHUB_OUTPUT
         id: setmatrix
 
   bump-versions:
