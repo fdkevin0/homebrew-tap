@@ -20,23 +20,10 @@ jobs:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
-      - name: setup homebrew livecheck_watchlist
-        run: |
-          mkdir -p ~/.homebrew
-          touch ~/.homebrew/livecheck_watchlist.txt
-      - name: Get formulae
-        run: ls | cut -f 1 -d '.' >> ~/.homebrew/livecheck_watchlist.txt
-        working-directory: Formula
-      # same as above, but for casks
-      - name: Get casks
-        run: ls | cut -f 1 -d '.' >> ~/.homebrew/livecheck_watchlist.txt
-        working-directory: Casks
-      - name: brew livecheck
-        run: brew livecheck --json
       # merge the two json arrays into one
       - name: Output matrix
         run: |
-          echo matrix="$(brew livecheck --json | jq '[.[] | select(.version.outdated == true) | . + {name: (.cask // .formula)}]')" >> $GITHUB_OUTPUT
+          echo matrix="$(brew livecheck --json --tap fdkevin0/tap | jq '[.[] | select(.version.outdated == true) | . + {name: (.cask // .formula)}]')" >> $GITHUB_OUTPUT
         id: setmatrix
 
   bump-versions:
