@@ -43,7 +43,7 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.get-formulae-and-casks.outputs.matrix) }}
     name: Bump ${{ matrix.name }}
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - run: brew tap fdkevin0/tap
       - name: brew livecheck ${{ matrix.name }}
