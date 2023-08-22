@@ -23,7 +23,9 @@ jobs:
       - name: check outdate
         id: check-outdate
         run: |
+          brew developer on
           OUTDATED=$(brew livecheck --json --tap fdkevin0/tap | jq -c '[.[] | select(.version.outdated == true) | . + {type: (if .cask then "cask" else "formula" end), name: (.cask // .formula)}]')
+          echo $OUTDATED
           echo outdated=$OUTDATED >> $GITHUB_OUTPUT
           echo outdated-length=$(echo $OUTDATED | jq length) >> $GITHUB_OUTPUT
       - name: Output matrix
@@ -37,6 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         include: ${{ fromJson(needs.get-outdated-formulae-and-casks.outputs.matrix) }}
+    if: needs.get-outdated-formulae-and-casks.outputs.matrix != ''
     name: Bump ${{ matrix.name }} to ${{ matrix.version.latest }}
     runs-on: macos-13
     steps:
