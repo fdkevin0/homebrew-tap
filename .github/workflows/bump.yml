@@ -20,11 +20,15 @@ jobs:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
-      - name: Output matrix
+      - name: check outdate
+        id: check-outdate
         run: |
           OUTDATED=$(brew livecheck --json --tap fdkevin0/tap | jq -c '[.[] | select(.version.outdated == true) | . + {type: (if .cask then "cask" else "formula" end), name: (.cask // .formula)}]')
-          echo $OUTDATED
-          echo matrix="$OUTDATED" >> $GITHUB_OUTPUT
+          echo outdated=$OUTDATED >> $GITHUB_OUTPUT
+          echo outdated-length=$(echo $OUTDATED | jq length) >> $GITHUB_OUTPUT
+      - name: Output matrix
+        if: steps.check-outdate.outputs.outdated-length > 0
+        run: echo matrix="${{ steps.check-outdate.outputs.outdated }}" >> $GITHUB_OUTPUT
         id: setmatrix
 
   bump-versions:
