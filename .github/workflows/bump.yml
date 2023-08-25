@@ -34,7 +34,7 @@ jobs:
           echo outdated-length=$(echo $OUTDATED | jq length) >> $GITHUB_OUTPUT
       - name: Output matrix
         if: steps.check-outdate.outputs.outdated-length > 0
-        run: echo matrix="${{ steps.check-outdate.outputs.outdated }}" >> $GITHUB_OUTPUT
+        run: echo matrix=${{ steps.check-outdate.outputs.outdated }} >> $GITHUB_OUTPUT
         id: setmatrix
 
   bump-versions:
@@ -42,7 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ needs.get-outdated-formulae-and-casks.outputs.matrix }}
+        include: ${{ fromJson(needs.get-outdated-formulae-and-casks.outputs.matrix) }}
     name: Bump ${{ matrix.name }} to ${{ matrix.version.latest }}
     runs-on: macos-13
     steps:
