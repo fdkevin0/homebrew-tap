@@ -34,7 +34,7 @@ jobs:
           echo outdated-length=$(echo $OUTDATED | jq length) >> $GITHUB_OUTPUT
       - name: Output matrix
         if: steps.check-outdate.outputs.outdated-length > 0
-        run: echo matrix=${{ steps.check-outdate.outputs.outdated }} >> $GITHUB_OUTPUT
+        run: echo matrix=${{ toJson(steps.check-outdate.outputs.outdated) }} >> $GITHUB_OUTPUT
         id: setmatrix
 
   bump-versions:
