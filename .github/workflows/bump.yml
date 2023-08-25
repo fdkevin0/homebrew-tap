@@ -42,8 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJson(needs.get-outdated-formulae-and-casks.outputs.matrix) }}
-    if: needs.get-outdated-formulae-and-casks.outputs.matrix != ''
+        include: ${{ needs.get-outdated-formulae-and-casks.outputs.matrix }}
     name: Bump ${{ matrix.name }} to ${{ matrix.version.latest }}
     runs-on: macos-13
     steps:
