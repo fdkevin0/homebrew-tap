@@ -17,7 +17,5 @@ cask "ryusak" do
 
   uninstall quit: "RyuSAK"
 
-  zap trash: [
-    "~/Library/Application Support/RyuSAK",
-  ]
+  zap trash: "~/Library/Application Support/RyuSAK"
 end
